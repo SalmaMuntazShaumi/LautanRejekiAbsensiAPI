@@ -9,18 +9,23 @@ use App\Models\Attendance;
 
 class AttendanceController extends Controller
 {
+    // =========================
+    // CLOCK IN
+    // =========================
     public function clockIn(Request $request)
     {
+        $request->validate([
+            'photo' => 'required|image',
+        ]);
+
         $user = $request->user();
 
         $today = now()->toDateString();
 
-        $attendance = Attendance::firstOrCreate(
-            [
-                'user_id' => $user->id,
-                'date' => $today
-            ]
-        );
+        $attendance = Attendance::firstOrCreate([
+            'user_id' => $user->id,
+            'date' => $today
+        ]);
 
         if ($attendance->clock_in) {
 
@@ -31,14 +36,31 @@ class AttendanceController extends Controller
 
         // status attendance
         $status = now()->format('H:i') > '08:30'
-        ? 'Telat'
-        : 'Tepat Waktu';
+            ? 'late'
+            : 'present';
+
+        // upload image
+        $photoPath = null;
+
+        if ($request->hasFile('photo')) {
+
+            $path = $request->file('photo')->store(
+                'attendance',
+                'public'
+            );
+
+            $photoPath = asset('storage/' . $path);
+        }
 
         $attendance->update([
+
             'clock_in' => now(),
+
             'clock_in_lat' => $request->latitude,
             'clock_in_long' => $request->longitude,
-            'clock_in_photo' => $request->photo,
+
+            'clock_in_photo' => $photoPath,
+
             'status' => $status,
         ]);
 
@@ -48,12 +70,15 @@ class AttendanceController extends Controller
         ]);
     }
 
+    // =========================
+    // TODAY ATTENDANCE
+    // =========================
     public function today(Request $request)
     {
         $attendance = Attendance::where(
-            'user_id',
-            $request->user()->id
-        )
+                'user_id',
+                $request->user()->id
+            )
             ->whereDate(
                 'date',
                 now()->toDateString()
@@ -65,6 +90,9 @@ class AttendanceController extends Controller
         ]);
     }
 
+    // =========================
+    // CLOCK OUT
+    // =========================
     public function clockOut(Request $request)
     {
         $user = $request->user();
@@ -72,9 +100,9 @@ class AttendanceController extends Controller
         $today = now()->toDateString();
 
         $attendance = Attendance::where(
-            'user_id',
-            $user->id
-        )
+                'user_id',
+                $user->id
+            )
             ->where('date', $today)
             ->first();
 
@@ -91,7 +119,7 @@ class AttendanceController extends Controller
                 'message' => 'Sudah clock-out'
             ], 400);
         }
-        
+
         $isEarlyOut = now()->format('H:i') < '16:50';
 
         if ($isEarlyOut) {
@@ -101,6 +129,19 @@ class AttendanceController extends Controller
             ]);
         }
 
+        // OPTIONAL PHOTO
+        $photoPath = null;
+
+        if ($request->hasFile('photo')) {
+
+            $path = $request->file('photo')->store(
+                'attendance',
+                'public'
+            );
+
+            $photoPath = asset('storage/' . $path);
+        }
+
         $attendance->update([
 
             'clock_out' => now(),
@@ -108,9 +149,11 @@ class AttendanceController extends Controller
             'clock_out_lat' => $request->latitude,
             'clock_out_long' => $request->longitude,
 
-            // ✅ NEW
-            'clock_out_photo' => $request->photo,
-            'early_out_reason' => $request->early_out_reason,
+            // optional
+            'clock_out_photo' => $photoPath,
+
+            'early_out_reason' =>
+                $request->early_out_reason,
         ]);
 
         return response()->json([
@@ -119,7 +162,9 @@ class AttendanceController extends Controller
         ]);
     }
 
-    // ✅ HISTORY
+    // =========================
+    // HISTORY
+    // =========================
     public function history(Request $request)
     {
         $data = Attendance::where(
@@ -150,13 +195,19 @@ class AttendanceController extends Controller
                         )->format('H:i')
                         : null,
 
+                    'clock_in_photo' =>
+                        $attendance->clock_in_photo,
+
+                    'clock_out_photo' =>
+                        $attendance->clock_out_photo,
+
                     'early_out_reason' =>
                         $attendance->early_out_reason,
                 ];
             });
 
-        return Attendance::where('user_id', auth()->id())
-            ->latest()
-            ->get();
-        }
+        return response()->json([
+            'data' => $data
+        ]);
+    }
 }
