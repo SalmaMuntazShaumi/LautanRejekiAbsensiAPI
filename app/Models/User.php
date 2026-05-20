@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -24,9 +23,9 @@ class User extends Authenticatable
         'name',
         'role',
         'birthdate',
-        'phone',
-        'email',
-        'password',
+        'phone',  // pastikan ada
+        'otp_code',      // tambah ini
+        'otp_expires_at',
     ];
 
     public function getPhotoUrlAttribute()
@@ -44,6 +43,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'otp_code',
     ];
 
     /**
@@ -54,8 +54,7 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'otp_expires_at' => 'datetime',
         ];
     }
 }

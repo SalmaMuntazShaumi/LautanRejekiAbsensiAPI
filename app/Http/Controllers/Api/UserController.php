@@ -18,7 +18,6 @@ class UserController extends Controller
 
     return response()->json([
         'name' => $user->name,
-        'email' => $user->email,
         'role' => $user->role,
         'phone' => $user->phone,
         'birthdate' => $user->birthdate,
@@ -66,7 +65,6 @@ class UserController extends Controller
 
             'user' => [
                 'name' => $user->name,
-                'email' => $user->email,
                 'phone' => $user->phone,
                 'birthdate' => $user->birthdate,
 
