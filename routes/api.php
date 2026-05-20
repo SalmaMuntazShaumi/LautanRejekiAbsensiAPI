@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\TimeOffController;
 // ✅ PUBLIC (tanpa login)
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/auth/request-otp', [AuthController::class, 'requestOtp']);
+Route::post('/auth/verify-otp', [AuthController::class, 'verifyOtp']);
 
 // 🔐 PROTECTED (harus login)
 Route::middleware('auth:sanctum')->group(function () {
@@ -23,4 +25,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/time-off', [TimeOffController::class, 'store']);
     Route::get('/time-off', [TimeOffController::class, 'index']);
     Route::post('/time-off/{id}/approve', [TimeOffController::class, 'approve']);
+    
 });
