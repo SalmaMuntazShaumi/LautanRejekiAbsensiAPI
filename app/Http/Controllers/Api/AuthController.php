@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request;    
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Services\WhatsappServices;
@@ -17,25 +18,70 @@ class AuthController extends Controller
     {
         $request->validate([
             'name'      => 'required|string',
+            'email'     => 'required|email|unique:users,email',
+            'phone'     => 'required|string|unique:users,phone',
+            'password'  => 'required|min:6',
+
             'role'      => 'required|in:Driver,Employee,Supervisor,Admin',
             'birthdate' => 'required|date',
-            'phone'     => 'required|string|unique:users,phone', // ← pastikan unique
         ]);
 
         $user = User::create([
             'name'      => $request->name,
+            'email'     => $request->email,
+            'phone'     => $request->phone,
+            'password'  => Hash::make($request->password),
+
             'role'      => $request->role,
             'birthdate' => $request->birthdate,
-            'phone'     => $request->phone,
         ]);
 
         $token = $user->createToken('token')->plainTextToken;
 
         return response()->json([
+            'success' => true,
             'message' => 'Register berhasil',
             'token'   => $token,
-            'user'    => $user
+            'user'    => $user,
         ], 201);
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'login' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        $login = $request->login;
+
+        // cek apakah email atau phone
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL)
+            ? 'email'
+            : 'phone';
+
+        $user = User::where($field, $login)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Login gagal',
+            ], 401);
+        }
+
+        // hapus token lama
+        $user->tokens()->delete();
+
+        // buat token baru
+        $token = $user->createToken('token')->plainTextToken;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Login berhasil',
+            'token' => $token,
+            'user' => $user,
+        ]);
     }
 
     /* STEP 1: Kirim OTP */
@@ -55,8 +101,17 @@ class AuthController extends Controller
             ], 422);
         }
 
-        $user = User::where('phone', $request->phone)->first();
+        $phone = $request->phone;
+
+        // Normalisasi: cari dengan berbagai format
+        $user = User::where('phone', $phone)
+            ->orWhere('phone', '62' . ltrim($phone, '0'))
+            ->orWhere('phone', '0' . ltrim(ltrim($phone, '62'), '0'))
+            ->first();
         \Log::info('User ditemukan', ['user' => $user]);
+
+        \Log::info('Phone received', ['phone' => $request->phone]);
+        \Log::info('User query', ['result' => User::where('phone', $request->phone)->first()]);
 
         if (!$user) {
             return response()->json([

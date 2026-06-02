@@ -20,6 +20,8 @@ class UserController extends Controller
         'name' => $user->name,
         'role' => $user->role,
         'phone' => $user->phone,
+        'email' => $user->email,
+        'password' => $user->password,
         'birthdate' => $user->birthdate,
 
         'photo_url' => $user->photo
@@ -27,6 +29,28 @@ class UserController extends Controller
             : null,
     ]);
 }
+
+    public function index()
+    {
+        $users = User::orderBy('name')
+            ->get()
+            ->map(function (User $user) {
+                return [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'role' => $user->role,
+                    'email' => $user->email,
+                    'password' => $user->password,
+                    'phone' => $user->phone,
+                    'birthdate' => $user->birthdate,
+                    'photo_url' => $user->photo_url,
+                ];
+            });
+
+        return response()->json([
+            'data' => $users,
+        ]);
+    }
 
     public function updateProfile(Request $request)
     {
@@ -36,6 +60,8 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'phone' => 'nullable|string|max:20',
             'birthdate' => 'nullable|date',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
@@ -56,6 +82,10 @@ class UserController extends Controller
 
         $user->name = $request->name;
         $user->phone = $request->phone;
+        $user->email = $request->email;
+        if ($request->password) {
+            $user->password = bcrypt($request->password);
+        }
         $user->birthdate = $request->birthdate;
 
         $user->save();
@@ -67,7 +97,8 @@ class UserController extends Controller
                 'name' => $user->name,
                 'phone' => $user->phone,
                 'birthdate' => $user->birthdate,
-
+                'email' => $user->email,
+                'password' => $user->password,
                 'photo_url' => $user->photo
                     ? asset('storage/' . $user->photo)
                     : null,

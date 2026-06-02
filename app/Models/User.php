@@ -21,11 +21,19 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'email',
+        'phone',
+        'password',
         'role',
         'birthdate',
-        'phone',  // pastikan ada
-        'otp_code',      // tambah ini
-        'otp_expires_at',
+        'photo',
+        'otp_code',        // ✅ tambah
+        'otp_expires_at',  // ✅ tambah
+    ];
+    
+    protected $hidden = [
+        'password',
+        'remember_token',
     ];
 
     public function getPhotoUrlAttribute()
@@ -34,17 +42,6 @@ class User extends Authenticatable
             ? asset('storage/' . $this->photo)
             : null;
     }
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-        'otp_code',
-    ];
 
     /**
      * Get the attributes that should be cast.
