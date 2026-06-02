@@ -1,3 +1,4 @@
+
 <?php
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,5 +28,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/users', [UserController::class, 'index']);
         Route::get('/history', [AttendanceController::class, 'history']);
         Route::post('/time-off/{id}/approve', [TimeOffController::class, 'approve']);
+        // routes/api.php — tambahkan di dalam middleware admin
+        Route::get('/time-off/all', [TimeOffController::class, 'adminIndex']);
+        // semua request
+        Route::post('/time-off/{id}/reject', [TimeOffController::class, 'reject']);
     });
 });

@@ -35,9 +35,9 @@ class AttendanceController extends Controller
         }
 
         // status attendance
-        $status = now()->format('H:i') > '08:30'
+        $status = now()->format('H:i') > '09:00'
             ? 'late'
-            : 'present';
+            : 'on_time';
 
         // upload image
         $photoPath = null;
@@ -167,47 +167,37 @@ class AttendanceController extends Controller
     // =========================
     public function history(Request $request)
     {
-        $data = Attendance::where(
-                'user_id',
-                $request->user()->id
-            )
-            ->orderBy('date', 'desc')
-            ->get()
-            ->map(function ($attendance) {
+        $query = Attendance::with('user')
+            ->orderBy('date', 'desc');
 
-                return [
+        // Filter by date jika ada parameter
+        if ($request->has('date')) {
+            $query->whereDate('date', $request->date);
+        } elseif ($request->has('month')) {
+            $query->whereYear('date', substr($request->month, 0, 4))
+                ->whereMonth('date', substr($request->month, 5, 2));
+        } elseif ($request->has('year')) {
+            $query->whereYear('date', $request->year);
+        }
 
-                    'id' => $attendance->id,
+        $data = $query->get()->map(function ($attendance) {
+            return [
+                'id'               => $attendance->id,
+                'date'             => $attendance->date,
+                'status'           => $attendance->status,
+                'nama'             => $attendance->user->name ?? '-',
+                'clock_in'         => $attendance->clock_in
+                    ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i')
+                    : null,
+                'clock_out'        => $attendance->clock_out
+                    ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i')
+                    : null,
+                'clock_in_photo'   => $attendance->clock_in_photo,
+                'clock_out_photo'  => $attendance->clock_out_photo,
+                'early_out_reason' => $attendance->early_out_reason,
+            ];
+        });
 
-                    'date' => $attendance->date,
-
-                    'status' => $attendance->status,
-
-                    'clock_in' => $attendance->clock_in
-                        ? \Carbon\Carbon::parse(
-                            $attendance->clock_in
-                        )->format('H:i')
-                        : null,
-
-                    'clock_out' => $attendance->clock_out
-                        ? \Carbon\Carbon::parse(
-                            $attendance->clock_out
-                        )->format('H:i')
-                        : null,
-
-                    'clock_in_photo' =>
-                        $attendance->clock_in_photo,
-
-                    'clock_out_photo' =>
-                        $attendance->clock_out_photo,
-
-                    'early_out_reason' =>
-                        $attendance->early_out_reason,
-                ];
-            });
-
-        return response()->json([
-            'data' => $data
-        ]);
+        return response()->json(['data' => $data]);
     }
 }

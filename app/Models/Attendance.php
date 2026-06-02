@@ -27,4 +27,9 @@ class Attendance extends Model
 
         'early_out_reason',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

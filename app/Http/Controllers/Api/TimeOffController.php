@@ -93,4 +93,24 @@ class TimeOffController extends Controller
             'message' => 'Time off rejected successfully'
         ]);
     }
+    
+    public function adminIndex()
+    {
+        $timeOffs = TimeOff::with('user')
+            ->latest()
+            ->get()
+            ->map(function ($t) {
+                return [
+                    'id'         => $t->id,
+                    'nama'       => $t->user->name ?? '-',
+                    'type'       => $t->type,
+                    'start_date' => $t->start_date,
+                    'end_date'   => $t->end_date,
+                    'reason'     => $t->reason,
+                    'status'     => $t->status,
+                ];
+            });
+    
+        return response()->json(['data' => $timeOffs]);
+    }
 }
