@@ -201,6 +201,8 @@ class AttendanceController extends Controller
         // Filter by date jika ada parameter
         if ($request->has('date')) {
             $query->whereDate('date', $request->date);
+        } elseif ($request->has('start_date') && $request->has('end_date')) {
+            $query->whereBetween('date', [$request->start_date, $request->end_date]);
         } elseif ($request->has('month')) {
             $query->whereYear('date', substr($request->month, 0, 4))
                 ->whereMonth('date', substr($request->month, 5, 2));
