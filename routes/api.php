@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/clock-in', [AttendanceController::class, 'clockIn']);
     Route::post('/clock-out', [AttendanceController::class, 'clockOut']);
     Route::get('/attendance/today', [AttendanceController::class, 'today']);
+    Route::get('/attendance/history', [AttendanceController::class, 'userHistory']);
     Route::post('/profile/update', [UserController::class, 'updateProfile']);
     Route::post('/time-off', [TimeOffController::class, 'store']);
     Route::get('/time-off', [TimeOffController::class, 'index']);  
@@ -28,9 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/users', [UserController::class, 'index']);
         Route::get('/history', [AttendanceController::class, 'history']);
         Route::post('/time-off/{id}/approve', [TimeOffController::class, 'approve']);
-        // routes/api.php — tambahkan di dalam middleware admin
         Route::get('/time-off/all', [TimeOffController::class, 'adminIndex']);
-        // semua request
         Route::post('/time-off/{id}/reject', [TimeOffController::class, 'reject']);
     });
 });

@@ -163,6 +163,34 @@ class AttendanceController extends Controller
     }
 
     // =========================
+    // USER HISTORY (untuk mobile)
+    // =========================
+    public function userHistory(Request $request)
+    {
+        $data = Attendance::where('user_id', $request->user()->id)
+            ->orderBy('date', 'desc')
+            ->get()
+            ->map(function ($attendance) {
+                return [
+                    'id'               => $attendance->id,
+                    'date'             => $attendance->date,
+                    'status'           => $attendance->status,
+                    'clock_in'         => $attendance->clock_in
+                        ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i')
+                        : null,
+                    'clock_out'        => $attendance->clock_out
+                        ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i')
+                        : null,
+                    'clock_in_photo'   => $attendance->clock_in_photo,
+                    'clock_out_photo'  => $attendance->clock_out_photo,
+                    'early_out_reason' => $attendance->early_out_reason,
+                ];
+            });
+
+        return response()->json(['data' => $data]);
+    }
+
+    // =========================
     // HISTORY
     // =========================
     public function history(Request $request)
