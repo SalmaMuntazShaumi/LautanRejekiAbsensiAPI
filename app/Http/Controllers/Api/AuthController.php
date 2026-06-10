@@ -129,6 +129,10 @@ class AuthController extends Controller
         ]);
 
         \Log::info('Sebelum kirim Zenziva');
+        // DEBUG TEMPORARY
+        \Log::channel('single')->info('About to call Zenziva', ['phone' => $user->phone, 'otp' => $otp]);
+        $sent = WhatsappServices::sendOtp($user->phone, $otp);
+        \Log::channel('single')->info('Zenziva result', ['sent' => $sent]);
         $sent = WhatsappServices::sendOtp($user->phone, $otp);
         \Log::info('Setelah kirim Zenziva', ['sent' => $sent]);
 

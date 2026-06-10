@@ -1,4 +1,3 @@
-
 <?php
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -7,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AttendanceController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\TimeOffController;
+use App\Http\Controllers\Api\DriverLocationController;
 
 // ✅ PUBLIC (tanpa login)
 Route::post('/register', [AuthController::class, 'register']);
@@ -24,6 +24,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/profile/update', [UserController::class, 'updateProfile']);
     Route::post('/time-off', [TimeOffController::class, 'store']);
     Route::get('/time-off', [TimeOffController::class, 'index']);  
+    Route::post('/driver/start', [DriverLocationController::class, 'start']);
+    Route::post('/driver/update-location', [DriverLocationController::class, 'update']);
+    Route::post('/driver/finish', [DriverLocationController::class, 'finish']);
+    Route::get('/admin/drivers/active', [DriverLocationController::class, 'activeDrivers']);
+    Route::get('/admin/drivers/{id}/location', [DriverLocationController::class, 'driverLocation']);
+    Route::get('/admin/drivers/history', [DriverLocationController::class, 'history']);
+
     
     Route::middleware('admin')->group(function () {
         Route::get('/users', [UserController::class, 'index']);

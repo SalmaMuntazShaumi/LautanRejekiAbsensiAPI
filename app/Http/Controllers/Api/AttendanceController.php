@@ -208,6 +208,13 @@ class AttendanceController extends Controller
                 ->whereMonth('date', substr($request->month, 5, 2));
         } elseif ($request->has('year')) {
             $query->whereYear('date', $request->year);
+        } elseif ($request->has('week')) {
+            [$year, $week] = explode('-W', $request->week);
+            $date = \Carbon\Carbon::now()
+                ->setISODate((int)$year, (int)$week)
+                ->startOfWeek()
+                ->toDateString();
+            $query->whereRaw('YEARWEEK(date, 1) = YEARWEEK(?, 1)', [$date]);
         }
 
         $data = $query->get()->map(function ($attendance) {
