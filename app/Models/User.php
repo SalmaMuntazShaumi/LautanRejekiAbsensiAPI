@@ -21,6 +21,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'company_id',
         'email',
         'phone',
         'password',
@@ -41,6 +42,11 @@ class User extends Authenticatable
         return $this->photo
             ? asset('storage/' . $this->photo)
             : null;
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 
     /**

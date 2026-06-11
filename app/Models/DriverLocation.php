@@ -1,32 +1,25 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Attendance extends Model
+class DriverLocation extends Model
 {
     protected $fillable = [
-
         'user_id',
         'company_id',
-        'date',
-
-        'clock_in',
-        'clock_out',
-
-        'clock_in_lat',
-        'clock_in_long',
-
-        'clock_out_lat',
-        'clock_out_long',
-
+        'start_latitude',
+        'start_longitude',
+        'latitude', 
+        'longitude',
         'status',
+        'started_at',
+        'arrived_at',
+    ];
 
-        'clock_in_photo',
-        'clock_out_photo',
-
-        'early_out_reason',
+    protected $casts = [
+        'started_at' => 'datetime',
+        'arrived_at' => 'datetime',
     ];
 
     public function user()

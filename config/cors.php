@@ -1,13 +1,6 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Cross-Origin Resource Sharing (CORS) Configuration
-    |--------------------------------------------------------------------------
-    */
-
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
@@ -17,6 +10,7 @@ return [
         'http://localhost:3000',
         'https://lautanrejeki.id',
         'https://www.lautanrejeki.id',
+        'https://admin.lautanrejeki.id',  // ← tambahkan ini
     ],
 
     'allowed_origins_patterns' => [],
@@ -28,5 +22,4 @@ return [
     'max_age' => 0,
 
     'supports_credentials' => true,
-
 ];

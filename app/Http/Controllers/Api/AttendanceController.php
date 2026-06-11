@@ -23,6 +23,7 @@ class AttendanceController extends Controller
         $today = now()->toDateString();
 
         $attendance = Attendance::firstOrCreate([
+            'company_id' => $user->company_id,
             'user_id' => $user->id,
             'date' => $today
         ]);
@@ -163,21 +164,59 @@ class AttendanceController extends Controller
     }
 
     // =========================
+    // USER HISTORY (untuk mobile)
+    // =========================
+    public function userHistory(Request $request)
+    {
+        $data = Attendance::where('user_id', $request->user()->id)
+            ->orderBy('date', 'desc')
+            ->get()
+            ->map(function ($attendance) {
+                return [
+                    'id'               => $attendance->id,
+                    'date'             => $attendance->date,
+                    'status'           => $attendance->status,
+                    'clock_in'         => $attendance->clock_in
+                        ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i')
+                        : null,
+                    'clock_out'        => $attendance->clock_out
+                        ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i')
+                        : null,
+                    'clock_in_photo'   => $attendance->clock_in_photo,
+                    'clock_out_photo'  => $attendance->clock_out_photo,
+                    'early_out_reason' => $attendance->early_out_reason,
+                ];
+            });
+
+        return response()->json(['data' => $data]);
+    }
+
+    // =========================
     // HISTORY
     // =========================
     public function history(Request $request)
     {
         $query = Attendance::with('user')
+            ->where('company_id', $request->user()->company_id)
             ->orderBy('date', 'desc');
 
         // Filter by date jika ada parameter
         if ($request->has('date')) {
             $query->whereDate('date', $request->date);
+        } elseif ($request->has('start_date') && $request->has('end_date')) {
+            $query->whereBetween('date', [$request->start_date, $request->end_date]);
         } elseif ($request->has('month')) {
             $query->whereYear('date', substr($request->month, 0, 4))
                 ->whereMonth('date', substr($request->month, 5, 2));
         } elseif ($request->has('year')) {
             $query->whereYear('date', $request->year);
+        } elseif ($request->has('week')) {
+            [$year, $week] = explode('-W', $request->week);
+            $date = \Carbon\Carbon::now()
+                ->setISODate((int)$year, (int)$week)
+                ->startOfWeek()
+                ->toDateString();
+            $query->whereRaw('YEARWEEK(date, 1) = YEARWEEK(?, 1)', [$date]);
         }
 
         $data = $query->get()->map(function ($attendance) {
