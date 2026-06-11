@@ -80,7 +80,7 @@ return new class extends Migration
         }
 
         Schema::table('users', function (Blueprint $table) {
-            $table->dropUnique(['company_id', 'phone']);
+            $table->dropUnique(['company_id', 'phone']);    
             $table->dropUnique(['company_id', 'email']);
             $table->unique('email');
             $table->dropConstrainedForeignId('company_id');
