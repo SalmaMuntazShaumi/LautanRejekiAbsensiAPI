@@ -1,0 +1,48 @@
+[11-Jun-2026 03:06:35 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:06:35 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:06:35 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/lautanre/api.lautanrejeki.id/public/index.php:35
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:06:35 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:06:35 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:06:35 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/lautanre/api.lautanrejeki.id/public/index.php:35
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:06:37 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:06:37 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:06:37 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/lautanre/api.lautanrejeki.id/public/index.php:35
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:06:53 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:06:53 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:06:53 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/lautanre/api.lautanrejeki.id/public/index.php:35
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:09:35 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:09:35 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:09:35 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/lautanre/api.lautanrejeki.id/public/index.php:35
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:18:49 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:18:49 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:18:49 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/lautanre/api.lautanrejeki.id/public/index.php:35
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:27:17 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:27:17 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 03:27:17 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/lautanre/api.lautanrejeki.id/public/index.php:35
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 04:01:36 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 04:01:36 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35
+[11-Jun-2026 04:01:36 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/lautanre/api.lautanrejeki.id/public/index.php:35
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/public/index.php on line 35

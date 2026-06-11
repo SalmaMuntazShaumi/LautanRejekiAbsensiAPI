@@ -1,0 +1,90 @@
+[11-Jun-2026 03:08:11 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:08:11 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:08:11 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lautanre/api.lautanrejeki.id/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:08:18 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:08:18 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:08:18 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lautanre/api.lautanrejeki.id/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:08:24 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:08:24 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:08:24 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lautanre/api.lautanrejeki.id/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:08:33 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:08:33 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:08:33 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lautanre/api.lautanrejeki.id/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:09:15 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:09:15 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:09:15 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lautanre/api.lautanrejeki.id/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:09:23 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:09:23 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:09:23 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lautanre/api.lautanrejeki.id/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:29:53 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:29:53 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:29:53 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lautanre/api.lautanrejeki.id/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:35:16 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:35:16 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:35:16 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lautanre/api.lautanrejeki.id/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:35:32 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:35:32 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:35:32 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lautanre/api.lautanrejeki.id/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:35:43 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:35:43 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:35:43 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lautanre/api.lautanrejeki.id/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:48:13 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:48:13 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:48:13 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lautanre/api.lautanrejeki.id/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:48:19 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:48:19 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:48:19 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lautanre/api.lautanrejeki.id/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:48:59 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:48:59 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:48:59 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lautanre/api.lautanrejeki.id/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:49:06 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:49:06 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:49:06 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lautanre/api.lautanrejeki.id/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:49:34 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:49:34 UTC] PHP Warning:  require(/home/lautanre/api.lautanrejeki.id/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lautanre/api.lautanrejeki.id/artisan on line 10
+[11-Jun-2026 03:49:34 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lautanre/api.lautanrejeki.id/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lautanre/api.lautanrejeki.id/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/lautanre/api.lautanrejeki.id/artisan on line 10
