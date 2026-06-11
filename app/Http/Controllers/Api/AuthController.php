@@ -206,29 +206,54 @@ class AuthController extends Controller
     private function resolveCompany(Request $request): Company
     {
         $company = $request->route('company');
-
         if ($company instanceof Company) {
             abort_unless($company->is_active, 403, 'Perusahaan tidak aktif.');
 
             return $company;
         }
 
+        // If route provided a slug (companies/{company:slug})
         if (is_string($company) && $company !== '') {
             $resolvedCompany = Company::where('is_active', true)
                 ->where('slug', $company)
-                ->firstOrFail();
+                ->first();
+
+            abort_unless($resolvedCompany, 404, 'Perusahaan tidak ditemukan.');
 
             return $resolvedCompany;
         }
 
         $companyQuery = Company::query()->where('is_active', true);
 
+        // Prefer explicit company_slug parameter
         if ($request->filled('company_slug')) {
-            return $companyQuery->where('slug', $request->company_slug)->firstOrFail();
+            $found = $companyQuery->where('slug', $request->company_slug)->first();
+            abort_unless($found, 404, 'Perusahaan tidak ditemukan.');
+            return $found;
         }
 
+        // Allow company_id to be either numeric id or slug string
         if ($request->filled('company_id')) {
-            return $companyQuery->where('id', $request->company_id)->firstOrFail();
+            $companyId = $request->company_id;
+            if (is_numeric($companyId)) {
+                $found = $companyQuery->where('id', $companyId)->first();
+            } else {
+                $found = $companyQuery->where('slug', $companyId)->first();
+            }
+
+            abort_unless($found, 404, 'Perusahaan tidak ditemukan.');
+            return $found;
+        }
+
+        // Fallback: accept `company` param as slug or id
+        if ($request->filled('company')) {
+            $value = $request->company;
+            $found = is_numeric($value)
+                ? $companyQuery->where('id', $value)->first()
+                : $companyQuery->where('slug', $value)->first();
+
+            abort_unless($found, 404, 'Perusahaan tidak ditemukan.');
+            return $found;
         }
 
         abort(422, 'company_slug atau company_id wajib diisi, atau gunakan endpoint /companies/{slug}.');
