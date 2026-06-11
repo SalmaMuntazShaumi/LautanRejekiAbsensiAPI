@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 
 use App\Models\User;
@@ -18,10 +19,10 @@ class UserController extends Controller
 
     return response()->json([
         'name' => $user->name,
+        'company' => $user->company,
         'role' => $user->role,
         'phone' => $user->phone,
         'email' => $user->email,
-        'password' => $user->password,
         'birthdate' => $user->birthdate,
 
         'photo_url' => $user->photo
@@ -30,17 +31,18 @@ class UserController extends Controller
     ]);
 }
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::orderBy('name')
+        $users = User::where('company_id', $request->user()->company_id)
+            ->orderBy('name')
             ->get()
             ->map(function (User $user) {
                 return [
                     'id' => $user->id,
+                    'company_id' => $user->company_id,
                     'name' => $user->name,
                     'role' => $user->role,
                     'email' => $user->email,
-                    'password' => $user->password,
                     'phone' => $user->phone,
                     'birthdate' => $user->birthdate,
                     'photo_url' => $user->photo_url,
@@ -58,9 +60,22 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:20',
+            'phone' => [
+                'nullable',
+                'string',
+                'max:20',
+                Rule::unique('users', 'phone')
+                    ->where('company_id', $user->company_id)
+                    ->ignore($user->id),
+            ],
             'birthdate' => 'nullable|date',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')
+                    ->where('company_id', $user->company_id)
+                    ->ignore($user->id),
+            ],
             'password' => 'nullable|string|min:8|confirmed',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -98,7 +113,6 @@ class UserController extends Controller
                 'phone' => $user->phone,
                 'birthdate' => $user->birthdate,
                 'email' => $user->email,
-                'password' => $user->password,
                 'photo_url' => $user->photo
                     ? asset('storage/' . $user->photo)
                     : null,

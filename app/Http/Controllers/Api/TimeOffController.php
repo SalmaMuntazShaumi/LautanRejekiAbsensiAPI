@@ -22,6 +22,7 @@ class TimeOffController extends Controller
 
         $timeOff = TimeOff::create([
             'user_id' => auth()->id(),
+            'company_id' => auth()->user()->company_id,
             'type' => $request->type,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
@@ -49,7 +50,7 @@ class TimeOffController extends Controller
 
     public function approve($id)
     {
-        $timeOff = TimeOff::findOrFail($id);
+        $timeOff = TimeOff::where('company_id', auth()->user()->company_id)->findOrFail($id);
 
         $timeOff->status = 'diterima';
         $timeOff->save();
@@ -67,6 +68,7 @@ class TimeOffController extends Controller
                 ],
 
                 [
+                    'company_id' => $timeOff->company_id,
                     'clock_in' => null,
                     'clock_out' => null,
 
@@ -84,7 +86,7 @@ class TimeOffController extends Controller
 
     public function reject($id)
     {
-        $timeOff = TimeOff::findOrFail($id);
+        $timeOff = TimeOff::where('company_id', auth()->user()->company_id)->findOrFail($id);
 
         $timeOff->status = 'ditolak';
         $timeOff->save();
@@ -97,6 +99,7 @@ class TimeOffController extends Controller
     public function adminIndex()
     {
         $timeOffs = TimeOff::with('user')
+            ->where('company_id', auth()->user()->company_id)
             ->latest()
             ->get()
             ->map(function ($t) {

@@ -23,6 +23,7 @@ class AttendanceController extends Controller
         $today = now()->toDateString();
 
         $attendance = Attendance::firstOrCreate([
+            'company_id' => $user->company_id,
             'user_id' => $user->id,
             'date' => $today
         ]);
@@ -196,6 +197,7 @@ class AttendanceController extends Controller
     public function history(Request $request)
     {
         $query = Attendance::with('user')
+            ->where('company_id', $request->user()->company_id)
             ->orderBy('date', 'desc');
 
         // Filter by date jika ada parameter

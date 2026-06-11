@@ -8,6 +8,7 @@ class TimeOff extends Model
 {
     protected $fillable = [
         'user_id',
+        'company_id',
         'type',
         'start_date',
         'end_date',
@@ -18,6 +19,11 @@ class TimeOff extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
     
 }

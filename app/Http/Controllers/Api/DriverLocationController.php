@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\DriverLocation;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class DriverLocationController extends Controller
@@ -14,24 +14,24 @@ class DriverLocationController extends Controller
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
         ]);
-    
+
         $location = DriverLocation::updateOrCreate(
             ['user_id' => $request->user()->id],
             [
-                'start_latitude'  => $request->latitude,  // ← simpan start location
+                'company_id' => $request->user()->company_id,
+                'start_latitude' => $request->latitude,
                 'start_longitude' => $request->longitude,
-                'latitude'        => $request->latitude,
-                'longitude'       => $request->longitude,
-                'status'          => 'on_delivery',
-                'started_at'      => now(),
-                'arrived_at'      => null,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'status' => 'on_delivery',
+                'started_at' => now(),
+                'arrived_at' => null,
             ]
         );
-    
+
         return response()->json(['success' => true, 'data' => $location]);
     }
 
-    // Driver update lokasi (dipanggil periodik)
     public function update(Request $request)
     {
         $request->validate([
@@ -42,6 +42,7 @@ class DriverLocationController extends Controller
         $location = DriverLocation::updateOrCreate(
             ['user_id' => $request->user()->id],
             [
+                'company_id' => $request->user()->company_id,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
             ]
@@ -50,10 +51,11 @@ class DriverLocationController extends Controller
         return response()->json(['success' => true, 'data' => $location]);
     }
 
-    // Driver selesai
     public function finish(Request $request)
     {
-        $location = DriverLocation::where('user_id', $request->user()->id)->first();
+        $location = DriverLocation::where('company_id', $request->user()->company_id)
+            ->where('user_id', $request->user()->id)
+            ->first();
 
         if ($location) {
             $location->update([
@@ -65,13 +67,13 @@ class DriverLocationController extends Controller
         return response()->json(['success' => true, 'data' => $location]);
     }
 
-    // Admin: lihat semua driver aktif
-    public function activeDrivers()
+    public function activeDrivers(Request $request)
     {
         $drivers = DriverLocation::with('user')
+            ->where('company_id', $request->user()->company_id)
             ->where('status', 'on_delivery')
             ->get()
-            ->map(fn($loc) => [
+            ->map(fn ($loc) => [
                 'driver_id' => $loc->user_id,
                 'name' => $loc->user->name,
                 'latitude' => $loc->latitude,
@@ -83,10 +85,10 @@ class DriverLocationController extends Controller
         return response()->json(['success' => true, 'data' => $drivers]);
     }
 
-    // Admin: lihat lokasi driver tertentu
-    public function driverLocation($driverId)
+    public function driverLocation(Request $request, $driverId)
     {
         $location = DriverLocation::with('user')
+            ->where('company_id', $request->user()->company_id)
             ->where('user_id', $driverId)
             ->first();
 
@@ -96,27 +98,27 @@ class DriverLocationController extends Controller
 
         return response()->json(['success' => true, 'data' => $location]);
     }
-    
-    // Tambah method history
+
     public function history(Request $request)
     {
         $history = DriverLocation::with('user')
+            ->where('company_id', $request->user()->company_id)
             ->whereNotNull('started_at')
             ->orderBy('started_at', 'desc')
             ->get()
-            ->map(fn($loc) => [
-                'id'           => $loc->id,
-                'driver_id'    => $loc->user_id,
-                'name'         => $loc->user->name,
-                'start_lat'    => $loc->start_latitude ?? $loc->latitude,
-                'start_lng'    => $loc->start_longitude ?? $loc->longitude,
-                'end_lat'      => $loc->latitude,
-                'end_lng'      => $loc->longitude,
-                'status'       => $loc->status,
-                'started_at'   => $loc->started_at,
-                'arrived_at'   => $loc->arrived_at,
+            ->map(fn ($loc) => [
+                'id' => $loc->id,
+                'driver_id' => $loc->user_id,
+                'name' => $loc->user->name,
+                'start_lat' => $loc->start_latitude ?? $loc->latitude,
+                'start_lng' => $loc->start_longitude ?? $loc->longitude,
+                'end_lat' => $loc->latitude,
+                'end_lng' => $loc->longitude,
+                'status' => $loc->status,
+                'started_at' => $loc->started_at,
+                'arrived_at' => $loc->arrived_at,
             ]);
-    
+
         return response()->json(['success' => true, 'data' => $history]);
     }
 }

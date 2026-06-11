@@ -7,12 +7,28 @@ use App\Http\Controllers\Api\AttendanceController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\TimeOffController;
 use App\Http\Controllers\Api\DriverLocationController;
+use App\Models\Company;
 
 // ✅ PUBLIC (tanpa login)
+Route::get('/companies', function () {
+    return response()->json([
+        'data' => Company::where('is_active', true)
+            ->orderBy('name')
+            ->get(['id', 'name', 'slug', 'location']),
+    ]);
+});
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/auth/request-otp', [AuthController::class, 'requestOtp']);
 Route::post('/auth/verify-otp', [AuthController::class, 'verifyOtp']);
+
+Route::prefix('companies/{company:slug}')->group(function () {
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/auth/request-otp', [AuthController::class, 'requestOtp']);
+    Route::post('/auth/verify-otp', [AuthController::class, 'verifyOtp']);
+});
 
 // 🔐 PROTECTED (harus login)
 Route::middleware('auth:sanctum')->group(function () {

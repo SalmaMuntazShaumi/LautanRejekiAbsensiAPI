@@ -3,36 +3,45 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;    
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Company;
 use App\Models\User;
 use App\Services\WhatsappServices;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
-    /* REGISTER */
     public function register(Request $request)
     {
-        $request->validate([
-            'name'      => 'required|string',
-            'email'     => 'required|email|unique:users,email',
-            'phone'     => 'required|string|unique:users,phone',
-            'password'  => 'required|min:6',
+        $company = $this->resolveCompany($request);
 
-            'role'      => 'required|in:Driver,Employee,Supervisor,Admin',
+        $request->validate([
+            'name' => 'required|string',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->where('company_id', $company->id),
+            ],
+            'phone' => [
+                'required',
+                'string',
+                Rule::unique('users', 'phone')->where('company_id', $company->id),
+            ],
+            'password' => 'required|min:6',
+            'role' => 'required|in:Driver,Employee,Supervisor,Admin',
             'birthdate' => 'required|date',
         ]);
 
         $user = User::create([
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'phone'     => $request->phone,
-            'password'  => Hash::make($request->password),
-
-            'role'      => $request->role,
+            'company_id' => $company->id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
             'birthdate' => $request->birthdate,
         ]);
 
@@ -41,39 +50,35 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Register berhasil',
-            'token'   => $token,
-            'user'    => $user,
+            'token' => $token,
+            'user' => $user,
+            'company' => $company,
         ], 201);
     }
 
     public function login(Request $request)
     {
+        $company = $this->resolveCompany($request);
+
         $request->validate([
             'login' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        $login = $request->login;
+        $field = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
 
-        // cek apakah email atau phone
-        $field = filter_var($login, FILTER_VALIDATE_EMAIL)
-            ? 'email'
-            : 'phone';
-
-        $user = User::where($field, $login)->first();
+        $user = User::where('company_id', $company->id)
+            ->where($field, $request->login)
+            ->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-
             return response()->json([
                 'success' => false,
                 'message' => 'Login gagal',
             ], 401);
         }
 
-        // hapus token lama
         $user->tokens()->delete();
-
-        // buat token baru
         $token = $user->createToken('token')->plainTextToken;
 
         return response()->json([
@@ -81,20 +86,19 @@ class AuthController extends Controller
             'message' => 'Login berhasil',
             'token' => $token,
             'user' => $user,
+            'company' => $company,
         ]);
     }
 
-    /* STEP 1: Kirim OTP */
     public function requestOtp(Request $request)
     {
-        \Log::info('=== requestOtp dipanggil ===', $request->all());
+        $company = $this->resolveCompany($request);
 
         $validator = Validator::make($request->all(), [
             'phone' => 'required|string',
         ]);
 
         if ($validator->fails()) {
-            \Log::info('Validasi gagal', $validator->errors()->toArray());
             return response()->json([
                 'success' => false,
                 'message' => $validator->errors(),
@@ -103,15 +107,13 @@ class AuthController extends Controller
 
         $phone = $request->phone;
 
-        // Normalisasi: cari dengan berbagai format
-        $user = User::where('phone', $phone)
-            ->orWhere('phone', '62' . ltrim($phone, '0'))
-            ->orWhere('phone', '0' . ltrim(ltrim($phone, '62'), '0'))
+        $user = User::where('company_id', $company->id)
+            ->where(function ($query) use ($phone) {
+                $query->where('phone', $phone)
+                    ->orWhere('phone', '62' . ltrim($phone, '0'))
+                    ->orWhere('phone', '0' . ltrim(ltrim($phone, '62'), '0'));
+            })
             ->first();
-        \Log::info('User ditemukan', ['user' => $user]);
-
-        \Log::info('Phone received', ['phone' => $request->phone]);
-        \Log::info('User query', ['result' => User::where('phone', $request->phone)->first()]);
 
         if (!$user) {
             return response()->json([
@@ -121,20 +123,13 @@ class AuthController extends Controller
         }
 
         $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-        \Log::info('OTP generated', ['otp' => $otp]);
 
         $user->update([
-            'otp_code'       => $otp,
+            'otp_code' => $otp,
             'otp_expires_at' => Carbon::now()->addMinutes(5),
         ]);
 
-        \Log::info('Sebelum kirim Zenziva');
-        // DEBUG TEMPORARY
-        \Log::channel('single')->info('About to call Zenziva', ['phone' => $user->phone, 'otp' => $otp]);
         $sent = WhatsappServices::sendOtp($user->phone, $otp);
-        \Log::channel('single')->info('Zenziva result', ['sent' => $sent]);
-        $sent = WhatsappServices::sendOtp($user->phone, $otp);
-        \Log::info('Setelah kirim Zenziva', ['sent' => $sent]);
 
         if (!$sent) {
             return response()->json([
@@ -146,16 +141,17 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'OTP berhasil dikirim ke WhatsApp kamu.',
-            'otp' => $otp, // sementara untuk debug, hapus nanti
+            'otp' => $otp,
         ], 200);
     }
 
-    /* STEP 2: Verifikasi OTP */
     public function verifyOtp(Request $request)
     {
+        $company = $this->resolveCompany($request);
+
         $validator = Validator::make($request->all(), [
-            'phone' => 'required|string', // ← ganti phone_number → phone
-            'otp'   => 'required|string|size:6',
+            'phone' => 'required|string',
+            'otp' => 'required|string|size:6',
         ]);
 
         if ($validator->fails()) {
@@ -165,8 +161,9 @@ class AuthController extends Controller
             ], 422);
         }
 
-        // Cari user berdasarkan nomor telepon
-        $user = User::where('phone', $request->phone)->first();
+        $user = User::where('company_id', $company->id)
+            ->where('phone', $request->phone)
+            ->first();
 
         if (!$user) {
             return response()->json([
@@ -175,7 +172,6 @@ class AuthController extends Controller
             ], 404);
         }
 
-        // Cek apakah OTP cocok
         if ($user->otp_code !== $request->otp) {
             return response()->json([
                 'success' => false,
@@ -183,29 +179,58 @@ class AuthController extends Controller
             ], 401);
         }
 
-        // Cek apakah OTP sudah kedaluwarsa
-        if (Carbon::now()->isAfter($user->otp_expires_at)) {
+        if (!$user->otp_expires_at || Carbon::now()->isAfter($user->otp_expires_at)) {
             return response()->json([
                 'success' => false,
                 'message' => 'OTP sudah kedaluwarsa. Silakan minta OTP baru.',
             ], 401);
         }
 
-        // OTP valid — hapus OTP dari database
         $user->update([
-            'otp_code'       => null,
+            'otp_code' => null,
             'otp_expires_at' => null,
         ]);
 
-        // Hapus token lama, buat token baru
         $user->tokens()->delete();
         $token = $user->createToken('token')->plainTextToken;
 
         return response()->json([
             'success' => true,
             'message' => 'Login berhasil.',
-            'token'   => $token,
-            'user'    => $user,
+            'token' => $token,
+            'user' => $user,
+            'company' => $company,
         ], 200);
+    }
+
+    private function resolveCompany(Request $request): Company
+    {
+        $company = $request->route('company');
+
+        if ($company instanceof Company) {
+            abort_unless($company->is_active, 403, 'Perusahaan tidak aktif.');
+
+            return $company;
+        }
+
+        if (is_string($company) && $company !== '') {
+            $resolvedCompany = Company::where('is_active', true)
+                ->where('slug', $company)
+                ->firstOrFail();
+
+            return $resolvedCompany;
+        }
+
+        $companyQuery = Company::query()->where('is_active', true);
+
+        if ($request->filled('company_slug')) {
+            return $companyQuery->where('slug', $request->company_slug)->firstOrFail();
+        }
+
+        if ($request->filled('company_id')) {
+            return $companyQuery->where('id', $request->company_id)->firstOrFail();
+        }
+
+        abort(422, 'company_slug atau company_id wajib diisi, atau gunakan endpoint /companies/{slug}.');
     }
 }
