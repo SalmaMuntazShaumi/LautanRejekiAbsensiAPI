@@ -59,20 +59,16 @@ return new class extends Migration
             });
         }
 
-        DB::table('attendances')
-            ->join('users', 'attendances.user_id', '=', 'users.id')
-            ->whereNull('attendances.company_id')
-            ->update(['attendances.company_id' => DB::raw('users.company_id')]);
-
-        DB::table('time_offs')
-            ->join('users', 'time_offs.user_id', '=', 'users.id')
-            ->whereNull('time_offs.company_id')
-            ->update(['time_offs.company_id' => DB::raw('users.company_id')]);
-
-        DB::table('driver_locations')
-            ->join('users', 'driver_locations.user_id', '=', 'users.id')
-            ->whereNull('driver_locations.company_id')
-            ->update(['driver_locations.company_id' => DB::raw('users.company_id')]);
+        foreach (['attendances', 'time_offs', 'driver_locations'] as $tableName) {
+            DB::table($tableName)
+                ->whereNull('company_id')
+                ->update([
+                    'company_id' => DB::table('users')
+                        ->select('company_id')
+                        ->whereColumn('users.id', "{$tableName}.user_id")
+                        ->limit(1),
+                ]);
+        }
     }
 
     public function down(): void
